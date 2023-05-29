@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const CategoryCard = ({
   title,
@@ -6,7 +6,10 @@ const CategoryCard = ({
   setOurData,
   ourData,
   categoryIndex,
+  addCard,
+  setAddCard,
 }) => {
+  const BtnRef = useRef(null);
   const [data, setData] = useState([
     {
       category: "",
@@ -19,6 +22,16 @@ const CategoryCard = ({
       title,
     },
   ]);
+  useEffect(() => {
+    if (title != "" && addCard > 1) {
+      // console.log(addCard);
+      let arr = new Array(addCard - 1).fill(0);
+      arr.map((el) => BtnRef.current.click());
+    }
+  }, [title]);
+  useEffect(() => {
+    console.log(data, "checking");
+  }, [data]);
   const handleSaveLocalStorage = (index, obj) => {
     console.log(ourData, "our data checking");
     let checking = [...ourData];
@@ -45,30 +58,52 @@ const CategoryCard = ({
     setData(updatedData);
   };
   const handleAddFields = () => {
-    setData([
-      ...data,
-      {
-        category: "",
-        brand: "",
-        mobile: "",
-        unitPrice: "",
-        quantity: "",
-        total: "",
-      },
-    ]);
+    console.log("inside handleAdd");
+    if (title == "") {
+      setAddCard((prev) => prev + 1);
+    }
+    let obj = {
+      category: "",
+      brand: "",
+      mobile: "",
+      unitPrice: "",
+      quantity: "",
+      total: "",
+      title,
+    };
+    data.push(obj);
+    setData([...data]);
+    // setData([
+    //   ...data,
+    //   {
+    //     category: "",
+    //     brand: "",
+    //     mobile: "",
+    //     unitPrice: "",
+    //     quantity: "",
+    //     total: "",
+    //     title,
+    //   },
+    // ]);
   };
   const handleRemoveFields = (index) => {
+    if (title == "") {
+      setAddCard((prev) => prev - 1);
+    }
     const updatedData = [...data];
     updatedData.splice(index, 1);
     setData(updatedData);
   };
   return (
-    <div>
+    <div style={{ border: "1px solid black", marginTop: "20px" }}>
       {title.length != 0 && (
-        <div style={{ fontSize: "1.5rem" }}>
+        <div style={{ fontSize: "1.5rem", marginLeft: "5px" }}>
           <button
             onClick={() => handleRemoveCategory(categoryIndex)}
-            style={{ fontSize: "1.2rem" }}
+            style={{
+              color: "white",
+              backgroundColor: "red",
+            }}
           >
             Remove
           </button>{" "}
@@ -77,6 +112,27 @@ const CategoryCard = ({
       )}
       {data.map((item, index) => (
         <div key={index} className="category-item">
+          <button
+            type="button"
+            onClick={() => handleRemoveFields(index)}
+            style={{
+              color: "white",
+              backgroundColor: "red",
+            }}
+          >
+            X
+          </button>
+          <button
+            ref={BtnRef}
+            type="button"
+            onClick={handleAddFields}
+            style={{
+              color: "black",
+              backgroundColor: "#90ee90",
+            }}
+          >
+            +
+          </button>
           <input
             type="text"
             placeholder="Category"
@@ -119,14 +175,8 @@ const CategoryCard = ({
             readOnly
             required
           />
-          <button type="button" onClick={() => handleRemoveFields(index)}>
-            Remove
-          </button>
         </div>
       ))}
-      <button type="button" onClick={handleAddFields}>
-        Add
-      </button>
     </div>
   );
 };

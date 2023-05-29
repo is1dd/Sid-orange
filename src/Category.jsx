@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const Category = () => {
   // const history = useHistory();
+  const [addCard, setAddCard] = useState(1);
   const redirect = useNavigate();
   const [addCategory, setAddCategory] = useState([
     {
@@ -15,6 +16,7 @@ const Category = () => {
 
   const handleAddCategory = () => {
     let count = addCategory.length;
+
     setAddCategory([
       ...addCategory,
       {
@@ -40,8 +42,16 @@ const Category = () => {
   return (
     <div>
       <h2>Category</h2>
+      <button
+        onClick={handleAddCategory}
+        style={{ backgroundColor: "green", color: "white" }}
+      >
+        ADD
+      </button>
       {addCategory?.map((el, i) => (
         <CategoryCard
+          addCard={addCard}
+          setAddCard={setAddCard}
           ourData={ourData}
           setOurData={setOurData}
           categoryIndex={i}
@@ -53,14 +63,17 @@ const Category = () => {
       <div
         style={{
           display: "flex",
-          border: "1px solid transparent",
+          border: "1px solid black",
           marginTop: "1rem",
           justifyContent: "end",
         }}
+      ></div>
+      <button
+        onClick={handleSubmit}
+        style={{ backgroundColor: "green", color: "white" }}
       >
-        <button onClick={handleAddCategory}>Add Category</button>
-        <button onClick={handleSubmit}>Submit</button>
-      </div>
+        SUBMIT
+      </button>
     </div>
   );
 };

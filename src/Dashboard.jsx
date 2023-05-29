@@ -12,7 +12,35 @@ const Dashboard = () => {
   return (
     <div>
       <h2>Dashboard</h2>
-      {data.map((item, index) => (
+      <div className="tablee">
+        <table style={{ width: "80%" }}>
+          <thead>
+            <tr style={{ width: "80%" }}>
+              <th></th>
+              <th>Category</th>
+              <th>Brand</th>
+              <th>Mobile</th>
+              <th>Unit Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((item, index) => (
+              <tr>
+                <td>{item.title == 0 ? "" : item.title}</td>
+                <td>{item.category}</td>
+                <td>{item.brand}</td>
+                <td>{item.mobile}</td>
+                <td>{item.unitPrice}</td>
+                <td>{item.quantity}</td>
+                <td>{item.total}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {/* {data.map((item, index) => (
         <div key={index} className="category-item">
           <p>{item.title == 0 ? "" : item.title}</p>
           <p>Category: {item.category}</p>
@@ -22,7 +50,7 @@ const Dashboard = () => {
           <p>Quantity: {item.quantity}</p>
           <p>Total: {item.total}</p>
         </div>
-      ))}
+      ))} */}
     </div>
   );
 };

@@ -6,6 +6,19 @@
   gap: 10px;
   margin-bottom: 10px;
 }
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.tablee {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 h2 {
   text-align: center;
 }
